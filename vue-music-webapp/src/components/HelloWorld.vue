@@ -1,25 +1,21 @@
 <template>
-   <div class="name">
-     xiaozhu
-   </div>
+  <div class="hello">
+    <div class="name">
+      项目
+    </div>
+  </div>
 </template>
 
 <script>
-export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
+  export default {
+    name: 'HelloWorld'
   }
-}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang='scss'>
-$highlight-color: #F90;
-.name {
-  font-size: 16px;
-  color: $highlight-color;
+<style lang="scss" scoped>
+.hello {
+  .name {
+    font-size: 56px;
+  }
 }
 </style>
