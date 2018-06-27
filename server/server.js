@@ -16,24 +16,37 @@ apiRoutes.get('/getList', function(req, res) {
     res.json(res.data)
   })
   .catch(function(err) {
-    
+    console.log(err)
   })  
 })
 
+apiRoutes.get('/getLyric', function(req, res) {
+  var url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
 
+  axios.get(url, {
+    headers: {
+      referer: 'https://c.y.qq.com/',
+      host: 'c.y.qq.com'
+    },
+    params: req.query
+  })
+  .then((response) => {
+    var result = response.data;
+    if (typeof result === 'string') {
+      var reg = /^\w+\(({[^()]+})\)$/
+      var matches = result.match(reg)
 
-
-
-
-
-
+      if(matches) {
+        result = JSON.parse(matches[1])
+      }
+    }
+    res.json(result)
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+})
 
 
 app.use('/api', apiRoutes);
 
-var server = app.listen(8911, 'localhost', function() {
-  var host = server.address().address;
-  var port = server.address().port;
-
-  console.log('Example app listening at http://%s:%s', host, port)
-})
