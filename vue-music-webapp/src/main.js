@@ -3,6 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
+// 启动vconsole
+require('@/tools/vconsole')
+
+// 消除移动浏览器300ms延迟
+// import attachFastClick from 'fastclick'
+// attachFastClick.attach(document.body)
 
 Vue.config.productionTip = false
 
@@ -10,6 +17,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
