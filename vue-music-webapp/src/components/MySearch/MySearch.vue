@@ -1,15 +1,15 @@
 <template>
   <div>
-    <p style="color: white;">MyUser</p>
+
   </div>
 </template>
 
 <script>
   export default {
-    name:'user'
+    name:'MySearch'
   }
 </script>
 
-<style lang='scss' scoped>
+<style scoped>
 
 </style>

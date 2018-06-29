@@ -1,12 +1,12 @@
 <template>
   <div>
-    <p style="color: white;">MyUser</p>
+
   </div>
 </template>
 
 <script>
   export default {
-    name:'user'
+    name: 'MySinger'
   }
 </script>
 

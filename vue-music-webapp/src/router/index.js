@@ -2,12 +2,17 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 const MyUser = resolve => (['@/components/MyUser/MyUser'], resolve)
-const MyRecommend = resolve => (['@/components/MyRecommend/MyRecommend'], resolve)
 const MySongListDetail = resolve => (['@/components/MySongListDetail/MySongListDetail'], resolve)
+const MyRecommend = resolve => (['@/components/MyRecommend/MyRecommend'], resolve)
+const MySinger = resolve => (['@/components/MySinger/MySinger'], resolve)
+const MyRank = resolve => (['@/components/MyRank/MyRank'], resolve)
+const MySearch = resolve => (['@/components/MySearch/MySearch'], resolve)
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'hash',
+  linkActiveClass: 'active',
   routes: [
     {
       path: '/',
@@ -29,6 +34,21 @@ export default new Router({
           component: MySongListDetail
         }
       ]
+    },
+    {
+      path: 'singer',
+      name: 'singer',
+      component: MySinger
+    },
+    {
+      path: 'rank',
+      name: 'rank',
+      component: MyRank
+    },
+    {
+      path: 'search',
+      name: 'search',
+      component: MySearch
     }
   ]
 })
