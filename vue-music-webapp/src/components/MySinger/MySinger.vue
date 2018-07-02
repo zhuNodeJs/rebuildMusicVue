@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    MySinger
   </div>
 </template>
 

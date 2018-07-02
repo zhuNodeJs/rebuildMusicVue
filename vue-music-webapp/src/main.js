@@ -5,7 +5,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-// import 'tools/flexible'
+// import 'tools/flexible' // 淘宝方案
 import 'common/scss/index.scss'
 
 // 启动vconsole

@@ -1,12 +1,12 @@
 <template>
   <div>
-
+    MyPlayer
   </div>
 </template>
 
 <script>
   export default {
-    name: ''
+    name: 'MyPlayer'
   }
 </script>
 
