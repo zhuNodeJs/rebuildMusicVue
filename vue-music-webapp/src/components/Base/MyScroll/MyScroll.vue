@@ -9,7 +9,6 @@ import BScroll from 'better-scroll'
   export default {
     name:'MyScroll',
     components: {
-
     },
     data() {
       return {
@@ -87,12 +86,14 @@ import BScroll from 'better-scroll'
         if (!this.$refs.wrapper) {
           return;
         }
+
         // better-scroll初始化
         this.scroll = new BScroll(this.$refs.wrapper, {
           probeType: this.probeType,
           click: this.click,
           scrollX: this.scrollX
         })
+
         // 是否派发滚动事件
         if(this.listenScroll) {
           let me = this;
@@ -127,18 +128,24 @@ import BScroll from 'better-scroll'
             this.$emit('beforeScroll')
           })
         }
-
-        // 代理better-scroll的disable方法
-        // disable() {
-
-        // }
-
-
-
-
-
-
+      },
+      enable() {
+        this.scroll && this.scroll.enable()
+      },
+      disable() {
+        this.scroll && this.scroll.disable()
+      },
+      refresh() {
+        this.scroll && this.scroll.refresh()
+      },
+      scrollTo() {
+        this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
+      },
+      scrollToElement() {
+        this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       }
+    },
+    created() {
     }
   }
 </script>
