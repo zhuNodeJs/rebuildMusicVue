@@ -39,6 +39,7 @@
 import MyScroll from 'components/Base/MyScroll/MyScroll'
 import MySlider from 'components/Base/MySlider/MySlider'
 import MyLoading from 'components/Base/MyLoading/MyLoading'
+import { getRecommend, getList } from 'api/recommend'
   export default {
     name: 'MyRecommend',
     data() {
@@ -51,10 +52,24 @@ import MyLoading from 'components/Base/MyLoading/MyLoading'
     },
     created() {
       this._getRecommend()
+      setTimeout(() => {
+        this._getList()
+      }, 1000)
     },
     methods: {
       _getRecommend() {
-
+        getRecommend().then(res => {
+          if (res.code == 0) {
+            this.recommends = res.data.slider
+          }
+        })
+      },
+      _getList() {
+        getList().then(res => {
+          if (res.code == 0) {
+            this.lists = res.data.list
+          }
+        })
       }
     },
     components: {
