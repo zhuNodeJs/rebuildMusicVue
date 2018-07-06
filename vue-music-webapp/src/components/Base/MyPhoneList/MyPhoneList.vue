@@ -57,7 +57,6 @@ import MyLoading from 'components/Base/MyLoading/MyLoading'
     },
     data() {
       return {
-        // shortcut: [],
         fixedTitle: '热门',
         probeType: 3,
         listenScroll: true,
@@ -66,9 +65,8 @@ import MyLoading from 'components/Base/MyLoading/MyLoading'
     },
     computed: {
       shortcut() {
-        console.log('shutcut>>>>>', this.data)
         return this.data.map((group) => {
-
+          return group.title.substr(0,1)
         })
       }
     },
@@ -135,7 +133,26 @@ import MyLoading from 'components/Base/MyLoading/MyLoading'
     }
   }
   .list-shortcut {
-
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    transform: translateY(-50%);
+    z-index: 30;
+    width: 20px;
+    padding: 20px 0px;
+    border-radius: 10px;
+    background:$color-background-d;
+    font-family: Helvetica;
+    text-align: center;
+    .item {
+      padding: 3px;
+      line-height: 1;
+      color: $color-text-l;
+      font-size: $font-size-small;
+      &.current {
+        color: $color-theme;
+      }
+    }
   }
 }
 </style>
