@@ -34,9 +34,9 @@
       </ul>
     </div>
     <!-- 滚动固定标题的实现 -->
-    <!-- <div ref="fixedTitleRef" v-show="fixedTitle" class="list-fixed">
+    <div ref="fixedTitleRef" v-show="fixedTitle" class="list-fixed">
       <h1 class="fixedTitle">{{ fixedTitle }}</h1>
-    </div> -->
+    </div>
     <!-- loading加载页 -->
     <!-- <div v-show="!data.length" class="loading-container">
       <my-loading></my-loading>
@@ -152,6 +152,20 @@ import MyLoading from 'components/Base/MyLoading/MyLoading'
       &.current {
         color: $color-theme;
       }
+    }
+  }
+  .list-fixed {
+    position: absolute;
+    top: -1px;
+    left: 0px;
+    width: 100%;
+    .fixedTitle {
+      height: 30px;
+      line-height: 30px;
+      padding-left: 20px;
+      font-size: $font-size-small;
+      color: $color-text-l;
+      background: $color-highlight-background;
     }
   }
 }
