@@ -38,15 +38,18 @@
       <h1 class="fixedTitle">{{ fixedTitle }}</h1>
     </div>
     <!-- loading加载页 -->
-    <!-- <div v-show="!data.length" class="loading-container">
+    <div v-show="!data.length" class="loading-container">
       <my-loading></my-loading>
-    </div> -->
+    </div>
   </my-scroll>
 </template>
 
 <script>
 import MyScroll from 'components/Base/MyScroll/MyScroll'
 import MyLoading from 'components/Base/MyLoading/MyLoading'
+
+const TITLE_HEIGHT = 29
+
   export default {
     name: 'MyPhoneList',
     props: {
@@ -57,10 +60,11 @@ import MyLoading from 'components/Base/MyLoading/MyLoading'
     },
     data() {
       return {
-        fixedTitle: '热门',
         probeType: 3,
         listenScroll: true,
-        currentIndex: 0
+        currentIndex: 0,
+        scrollY: -1,
+        diff: -1 // 悬浮的索引title与滚动索引的间距
       }
     },
     computed: {
@@ -68,11 +72,62 @@ import MyLoading from 'components/Base/MyLoading/MyLoading'
         return this.data.map((group) => {
           return group.title.substr(0,1)
         })
+      },
+      fixedTitle() {
+        if (this.scrollY > 0) {
+          return ''
+        }
+        return this.data[this.currentIndex] ? this.data[this.currentIndex].title : ''
+      }
+    },
+    watch: {
+      data() {
+        setTimeout(() => {
+          this._calcHeight()
+        }, 20)
+      },
+      scrollY(newY, oldY) {
+        const leftListHeight = this.leftListHeight
+        // 当滚动到顶部，newY > 0
+        if (newY > 0) {
+          this.currentIndex = 0
+          return
+        }
+
+        // 在中间部分滚动
+        for(let i = 0, len = leftListHeight.length; i < len; i++) {
+          let heightT = leftListHeight[i]
+          let heightB = leftListHeight[i+1]
+          if (!heightB || (-newY >= heightT && -newY <= heightB)) {
+            console.log('>>newY>>>', -newY)
+            console.log('>>>i>>>',i)
+            this.currentIndex = i
+            return
+          }
+        }
+
+
+
+
+      },
+      diff() {
+
       }
     },
     methods: {
-      scroll() {
-
+      scroll(pos) {
+        this.scrollY = pos.y
+      },
+      _calcHeight() {
+        // 初始化
+        let height = 0
+        this.leftListHeight = []
+        this.leftListHeight.push(height)
+        let list = this.$refs.leftRef
+        for(let i = 0; i < list.length; i++) {
+          height += list[i].clientHeight
+          this.leftListHeight.push(height)
+        }
       },
       selectItem(item) {
 
@@ -167,6 +222,12 @@ import MyLoading from 'components/Base/MyLoading/MyLoading'
       color: $color-text-l;
       background: $color-highlight-background;
     }
+  }
+  .loading-container {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 </style>
