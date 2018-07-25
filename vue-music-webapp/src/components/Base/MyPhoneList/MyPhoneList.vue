@@ -64,7 +64,7 @@ const TITLE_HEIGHT = 29
         listenScroll: true,
         currentIndex: 0,
         scrollY: -1,
-        diff: -1 // 悬浮的索引title与滚动索引的间距
+        diff: -1 // 标题上推y值（热门标题 - A标题）
       }
     },
     computed: {
@@ -99,19 +99,25 @@ const TITLE_HEIGHT = 29
           let heightT = leftListHeight[i]
           let heightB = leftListHeight[i+1]
           if (!heightB || (-newY >= heightT && -newY <= heightB)) {
-            console.log('>>newY>>>', -newY)
-            console.log('>>>i>>>',i)
+            // console.log('>>newY>>>', -newY)
+            // console.log('>>>i>>>',i)
             this.currentIndex = i
+            this.diff = heightB + newY
+            // console.log(this.diff)
             return
           }
         }
-
-
-
-
       },
-      diff() {
+      diff(newVal) {
+        // 控制的是当顶部的距离小于顶部的
+        let fixedTop = (newVal > 0 && newVal < TITLE_HEIGHT) ? newVal - TITLE_HEIGHT : 0
 
+        if (this.fixedTop === fixedTop) {
+          return
+        }
+
+        this.fixedTop = fixedTop
+        this.$refs.fixedTitleRef.style.transform = `translate3d(0, ${fixedTop}, 0)`
       }
     },
     methods: {
@@ -132,10 +138,12 @@ const TITLE_HEIGHT = 29
       selectItem(item) {
 
       },
-      onShortcutTouchstart() {
+      onShortcutTouchstart(event) {
+        console.log('>>', event)
+        let nowTouch = event.touches[0]
 
       },
-      onShortcutTouchmove() {
+      onShortcutTouchmove(event) {
 
       }
     },
