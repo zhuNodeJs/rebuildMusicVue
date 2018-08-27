@@ -7,6 +7,7 @@ const MyRecommend = resolve => require(['@/components/MyRecommend/MyRecommend'],
 const MySinger = resolve => require(['@/components/MySinger/MySinger'], resolve)
 const MyRank = resolve => require(['@/components/MyRank/MyRank'], resolve)
 const MySearch = resolve => require(['@/components/MySearch/MySearch'], resolve)
+const MySingerDetail = resolve => require(['@/components/MySingerDetail/MySingerDetail'], resolve)
 
 Vue.use(Router)
 
@@ -38,7 +39,14 @@ export default new Router({
     {
       path: '/singer',
       name: 'singer',
-      component: MySinger
+      component: MySinger,
+      children: [
+        {
+          path: ':id',
+          name: 'singerdetail',
+          component: MySingerDetail
+        }
+      ]
     },
     {
       path: '/rank',

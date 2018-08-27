@@ -21,7 +21,9 @@ export default {
     };
   },
   methods: {
-    selectSinger() {},
+    selectSinger(singer) {
+      console.log(singer)
+    },
     _getSingerList() {
       getSingerList().then(res => {
         if (res.code === 0) {

@@ -136,7 +136,7 @@ const TITLE_HEIGHT = 29
         }
       },
       selectItem(item) {
-
+        this.$emit('select', item)
       },
       onShortcutTouchstart(event) {
         console.log('>>', event)
