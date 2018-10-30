@@ -34,7 +34,7 @@ export default {
     name: 'MyRank',
     data() {
       return {
-
+        toplist: []
       }
     },
     props: {},
