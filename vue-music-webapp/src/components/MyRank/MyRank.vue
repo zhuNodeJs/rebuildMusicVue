@@ -30,6 +30,7 @@
 <script>
 import MyLoading from '@/components/Base/MyLoading/MyLoading'
 import MyScroll from '@/components/Base/MyScroll/MyScroll'
+import {getRankList} from '@/api/rank'
 export default {
     name: 'MyRank',
     data() {
@@ -41,12 +42,17 @@ export default {
     watch: {},
     filters: {},
     methods: {
+      _getRankList() {
 
+      }
     },
     components: {
       MyScroll,
       MyLoading
-    }
+    },
+    created() {
+      this._getRankList();
+    },
 }
 </script>
 
