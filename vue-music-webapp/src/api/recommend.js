@@ -33,10 +33,7 @@ export function getList() {
     categoryId: 10000000,
     sortId: 5,
     sin: 0,
-    ein: 29,
-    jsonpCallback: "getPlaylist",
-    picmid: 1,
-    loginUin: 0
+    ein: 29
   })
   return axios.get(url, {
     params: data
