@@ -23,6 +23,8 @@
       <div v-show="!toplist.length" class="loading-container">
         <my-loading></my-loading>
       </div>
+
+      <router-view></router-view>
     </my-scroll>
   </div>
 </template>
@@ -50,7 +52,15 @@ export default {
         })
       },
       loadImg() {
-
+        if (!this.flag) {
+          this.$refs.scrollRef.refresh()
+          this.flag = true
+        }
+      },
+      selectItem(item) {
+        this.$router.push({
+          path: `/rank/${item.id}`
+        })
       }
     },
     components: {
@@ -92,10 +102,27 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: center;
-
+        padding: 0 20px;
+        height: 100px;
+        overflow: hidden;
+        background: $color-highlight-background;
+        color:$color-text-d;
+        font-size:$font-size-small;
+        .song {
+          @include no-wrap();
+          line-height: 26px;
+          .singername {
+            color: rgba(255,255,255, 0.2);
+          }
+        }
       }
     }
-
+    .loading-container {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
   }
 }
 </style>
