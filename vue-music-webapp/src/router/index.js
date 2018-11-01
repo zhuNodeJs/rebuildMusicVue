@@ -55,7 +55,7 @@ export default new Router({
       component: MyRank,
       children: [
         {
-          path:':id',
+          path:'/:id',
           name: 'rankdetail',
           component: MyRankDetail
         }

@@ -24,8 +24,9 @@
         <my-loading></my-loading>
       </div>
 
-      <router-view></router-view>
     </my-scroll>
+
+    <router-view></router-view>
   </div>
 </template>
 

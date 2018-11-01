@@ -1,6 +1,6 @@
 <template>
   <transition name="slide" class="my-rank-detail">
-    <my-music-list></my-music-list>
+    xxxx
   </transition>
 </template>
 
