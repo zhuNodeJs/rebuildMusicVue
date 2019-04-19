@@ -10,6 +10,7 @@ const MySearch = resolve => require(['@/components/MySearch/MySearch'], resolve)
 const MySingerDetail = resolve => require(['@/components/MySingerDetail/MySingerDetail'], resolve)
 const MyRankDetail = resolve => require(['@/components/MyRankDetail/MyRankDetail'], resolve)
 
+
 Vue.use(Router)
 
 export default new Router({
@@ -50,6 +51,11 @@ export default new Router({
       ]
     },
     {
+      path: '/search',
+      name: 'search',
+      component: MySearch
+    },
+    {
       path: '/rank',
       name: 'rank',
       component: MyRank,
@@ -60,11 +66,7 @@ export default new Router({
           component: MyRankDetail
         }
       ]
-    },
-    {
-      path: '/search',
-      name: 'search',
-      component: MySearch
     }
+
   ]
 })

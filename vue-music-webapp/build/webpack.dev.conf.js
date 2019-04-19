@@ -49,6 +49,61 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           .catch(function (error) {
             // console.log('error&&&', error)
           })
+      }),
+      app.get('/api/getResult', function(req, res) {
+        var url = `https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp`
+        axios.get(url, {
+          headers: {
+            referer: 'https://c.y.qq.com/',
+            host: 'c.y.qq.com'
+          },
+          params: req.query
+        })
+        .then(function (response) {
+          // console.log('>>>', response.data, typeof response.data)
+          let result = response.data;
+          if (typeof result === 'string') {
+            var reg = /^\w+\(({[^()]+})\)$/
+            var matches = result.match(reg)
+
+            if (matches) {
+              result = JSON.parse(matches[1])
+            }
+
+          }
+          res.json(result)
+        })
+        .catch(function (error) {
+          console.log('error&&&', error)
+        })
+
+      }),
+      app.get('/api/getLyric', function(req, res) {
+        let url = `https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg`
+        axios.get(url,{
+          headers: {
+            referer: 'https://c.y.qq.com/',
+            host: 'c.y.qq.com'
+          },
+          params: req.query
+        })
+        .then(response => {
+          let result = response.data
+
+          if (typeof result === 'string') {
+            let reg = /^\w+\(({[^()]+})\)$/
+            let matches = result.match(reg)
+
+            if (matches) {
+              result = JSON.parse(matches[1])
+            }
+          }
+
+          res.json(result)
+        })
+        .catch(err => {
+          console.log('错误>>', err)
+        })
       })
     },
     clientLogLevel: 'warning',

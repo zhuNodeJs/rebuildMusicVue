@@ -1,15 +1,33 @@
 <template>
-  <transition name="slide" class="my-rank-detail">
-    xxxx
-  </transition>
+  <div>
+
+  </div>
 </template>
 
 <script>
-import MyMusicList from '@/components/MyMusicList/MyMusicList'
+  import MyMusicList from '@/components/MyMusicList/MyMusicList'
   export default {
-    name: 'rankdetail',
+    name: 'MyRankDetail',
     components: {
       MyMusicList
+    },
+    data() {
+      return {
+        songs: []
+      }
+    },
+    methods: {
+      // 获取指定排行榜单的详情
+      _getRankDetail() {
+        // 禁止直接刷新详情页（获取不到排行 id)
+        if (!this.rankList.id) {
+          this.$router.push('/rank')
+          return;
+        }
+      }
+    },
+    created() {
+      // this._getRankDetail()
     }
   }
 </script>

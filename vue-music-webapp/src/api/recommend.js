@@ -1,4 +1,4 @@
-import jsonp from 'common/js/jsonp'
+import {jsonp} from 'common/js/jsonp'
 import axios from 'axios'
 import { commonParams, opts } from 'api/common-query.js'
 
@@ -47,5 +47,34 @@ export function getList() {
 }
 
 /**
- *
+ * 接口 搜索 keyword 关键字
  */
+export function getResult(query, page, perpage, zhida) {
+  let url = '/api/getResult'
+  let data = Object.assign({}, commonParams, {
+    w: query,
+    p: page,
+    n: perpage,
+    perpage,
+    zhidaqu: 1,
+    catZhida: zhida ? 1 : 0,
+    t: 0,
+    flag: 1,
+    ie: 'utf-8',
+    sem: 1,
+    aggr: 0,
+    uin: 0,
+    platform: 'h5',
+    uid: 0,
+    needNewCode: 1,
+    remoteplace: 'txt.mqq.all'
+  })
+
+  return axios.get(url, data)
+  .then((res) => {
+    return Promise.resolve(res.data)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}

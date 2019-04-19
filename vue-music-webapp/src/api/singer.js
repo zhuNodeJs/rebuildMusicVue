@@ -1,4 +1,4 @@
-import jsonp from 'common/js/jsonp'
+import {jsonp} from 'common/js/jsonp'
 import { commonParams, opts } from 'api/common-query'
 /**
  * jsonp 抓取歌手页数据
