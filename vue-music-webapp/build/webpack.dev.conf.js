@@ -63,14 +63,16 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           // console.log('>>>', response.data, typeof response.data)
           let result = response.data;
           if (typeof result === 'string') {
-            var reg = /^\w+\(({[^()]+})\)$/
-            var matches = result.match(reg)
-
-            if (matches) {
-              result = JSON.parse(matches[1])
-            }
-
+            let num = result.indexOf('(')
+            // JSON.parse将JSON字符串转换为对象
+            result = JSON.parse(result.slice(num + 1, -1))
+            // var reg = /^\w+\(({[^()]+})\)$/
+            // var matches = result.match(reg)
+            // if (matches) {
+            //   result = JSON.parse(matches[1])
+            // }
           }
+          // console.log('>>>&&&&', result, typeof result)
           res.json(result)
         })
         .catch(function (error) {
@@ -103,6 +105,27 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         })
         .catch(err => {
           console.log('错误>>', err)
+        })
+      }),
+      app.get('/api/getSonglist', function(req, res) {
+        let url = `https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg`
+        axios.get(url, {
+          headers: {
+            referer: 'https://c.y.qq.com/',
+            host: 'c.y.qq.com'
+          },
+          params: req.query
+        }).then(response => {
+          let result = response.data;
+          // console.log('>>>>>>', result)
+          if (typeof result === 'string') {
+            let num = result.indexOf('(')
+            // JSON.parse将JSON字符串转换为对象
+            result = JSON.parse(result.slice(num + 1, -1))
+          }
+          res.json(result)
+        }).catch(err => {
+          console.log('songlist err', err)
         })
       })
     },

@@ -17,7 +17,7 @@ export const filterSinger = (singer) => {
 
 
 export class SingerSong {
-  constructor(id, mid, singer, name, album, duration, img, url) {
+  constructor({id, mid, singer, name, album, duration, img, url}) {
     this.id = id;
     this.mid = mid;
     this.singer = singer;

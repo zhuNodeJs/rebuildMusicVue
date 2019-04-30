@@ -45,7 +45,7 @@ export default new Router({
       children: [
         {
           path: ':id',
-          name: 'singerdetail',
+          name: 'rsingerdetail',
           component: MySingerDetail
         }
       ]
@@ -53,7 +53,14 @@ export default new Router({
     {
       path: '/search',
       name: 'search',
-      component: MySearch
+      component: MySearch,
+      children: [
+        {
+          path: ':id',
+          name: 'singerdetail',
+          component: MySingerDetail
+        }
+      ]
     },
     {
       path: '/rank',
@@ -61,7 +68,7 @@ export default new Router({
       component: MyRank,
       children: [
         {
-          path:'/:id',
+          path:':id',
           name: 'rankdetail',
           component: MyRankDetail
         }

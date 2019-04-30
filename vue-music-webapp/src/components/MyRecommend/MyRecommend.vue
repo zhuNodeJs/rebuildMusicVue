@@ -1,12 +1,12 @@
 <template>
   <div class="my-recommend" ref="recommendRef">
-    <my-scroll class="recommend-content" ref="scroll">
+    <my-scroll class="recommend-content" ref="scroll" :data='lists'>
       <div>
         <div v-if="recommends.length" class="slide-wrapper">
           <my-slider :loop='bloop' :autoPlay='bautoPlay'>
             <div v-for="(recommend, key) in recommends" :key="key">
               <a :href="recommend.linkUrl">
-                <img :src="recommend.picUrl" class="needsClick">
+                <img @load='loadImg' :src="recommend.picUrl" class="needsClick">
               </a>
             </div>
           </my-slider>
@@ -32,6 +32,8 @@
         <my-loading></my-loading>
       </div>
     </my-scroll>
+
+    <router-view></router-view>
   </div>
 </template>
 
@@ -40,8 +42,12 @@ import MyScroll from 'components/Base/MyScroll/MyScroll'
 import MySlider from 'components/Base/MySlider/MySlider'
 import MyLoading from 'components/Base/MyLoading/MyLoading'
 import { getRecommend, getList } from 'api/recommend'
+import {mapMutations} from 'vuex'
+import {playlistMixin} from '@/common/js/mixin'
+
   export default {
     name: 'MyRecommend',
+    // mixins:[playlistMixin],
     data() {
       return {
         bloop: true, // 轮播图--是否轮播
@@ -57,6 +63,26 @@ import { getRecommend, getList } from 'api/recommend'
       }, 1000)
     },
     methods: {
+      ...mapMutations({
+        setLonglist: 'SET_SONGLIST'
+      }),
+      // 子路由跳转
+      selectItem(item) {
+        console.log('跳转前的item>>>>',item)
+        this.$router.push({
+          path:`/recommend/${item.dissid}`
+        })
+
+        // 写入到vuex
+        this.setLonglist(item)
+      },
+      loadImg() {
+        // 当首次获取到图片时，BS重新计算,即在第一次加载图片成功后即可
+        if (!this.flag) {
+          this.$refs.scroll.refresh();
+          this.flag = true;
+        }
+      },
       _getRecommend() {
         getRecommend().then(res => {
           if (res.code == 0) {

@@ -5,7 +5,7 @@
        :beforeScroll='beforeScrollData'
        @beforeScroll='beforeScroll'
        :pullup='pullup'
-       @scrollToEnd='scrollToEnd'
+       @scrollEnd='scrollToEnd'
        >
       <ul class="sugguest-list">
         <li class="suggest-item" v-for="(item,index) in result" :key="index" @click="selectItem(item)">
@@ -34,6 +34,8 @@ import MyLoading from '@/components/Base/MyLoading/MyLoading'
 import {search} from '@/api/search'
 import {getResult} from '@/api/recommend'
 import MyNoResult from '@/components/Base/MyNoResult/MyNoResult'
+import {createSingerSong} from '@/common/js/SingerSongClass'
+import {Singer} from '@/common/js/SingerClass'
 
 const TYPE_SINGER = 'singer'
 
@@ -67,25 +69,42 @@ const TYPE_SINGER = 'singer'
     },
     watch: {
       query(newVal) {
+        if (!newVal) return
         this.search()
       }
     },
     methods: {
-      selectItem(item) {
-
+      getSingernameOrSongname(item) {
+        if (item.type === TYPE_SINGER) {
+          return item.singername
+        } else {
+          return `${item.name}-${item.singer}`
+        }
       },
-      callback(data) {
-        console.log('*********', data)
+      selectItem(item) {
+        if (item.type === TYPE_SINGER){
+          let singer = new Singer({
+            id: item.mid,
+            name: item.name
+          })
+
+
+        } else {
+          // this.insertSong(item)
+        }
+        this.$emit('select')
       },
       search() {
-        this.page = 1;
-        this.hasMore = true;
+        this.page = 1
+        this.hasMore = true
         this.$refs.scrollRef.scrollTo(0, 0)
 
         getResult(this.query, this.page, this.perpage, this.zhida)
         .then((res) => {
           if (res.code === 0) {
+            // this.hasMore = false;
             this.result = this._formatSearch(res.data)
+            // console.log('>>>***>>', JSON.stringify(this.result))
             this._checkMore(res.data)
           }
         })
@@ -95,12 +114,12 @@ const TYPE_SINGER = 'singer'
       _checkMore(data) {
         let song = data.song;
         // 没有数据或者是最后一页
-        if(!song.list.length || (song.curnum + song.curpage * this.perpage) > song.totalnum) {
+        if(!song.list.length || (song.curpage * this.perpage) > song.totalnum) {
           this.hasMore = false;
         }
       },
       _formatSearch(data) {
-        console.log('data=====', JSON.stringify(data))
+        // console.log('data=====', JSON.stringify(data))
         let ret = []
 
         if (data.zhida && data.zhida.singerid) {
@@ -119,6 +138,7 @@ const TYPE_SINGER = 'singer'
 
         list.forEach((item) => {
           if (item.songid && item.albummid) {
+            // console.log('******',createSingerSong(item))
             ret.push(createSingerSong(item))
           }
         })
@@ -126,9 +146,24 @@ const TYPE_SINGER = 'singer'
         return ret
       },
       beforeScroll() {
-
+        this.$emit('beforeScroll')
       },
       scrollToEnd() {
+        if (!this.hasMore) {
+          return;
+        }
+
+        this.page = this.page + 1
+
+        getResult(this.query, this.page, this.perpage, this.zhida)
+        .then((res) => {
+          if (res.code === 0) {
+            // this.hasMore = false;
+            this.result = this.result.concat(this._formatSearch(res.data))
+            // console.log('>>>***>>', JSON.stringify(this.result))
+            this._checkMore(res.data)
+          }
+        })
 
       },
       // 获取 icon class 图标样式
@@ -138,6 +173,10 @@ const TYPE_SINGER = 'singer'
         } else {
           return 'icon-music'
         }
+      },
+      // 刷新,使用上级来调用
+      refresh() {
+        this.$refs.scrollRef.refresh()
       }
     },
     components: {

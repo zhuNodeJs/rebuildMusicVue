@@ -18,8 +18,7 @@
           </div>
 
           <!-- 搜索历史 -->
-          <!-- <div class="search-history" v-show="searchHistory.length"> -->
-          <div class="search-history">
+          <div class="search-history" v-show="searchHistory.length">
             <h1 class="title">
               <span class="text">搜索历史</span>
               <span class="clear" @click="showConfirm">
@@ -77,8 +76,10 @@
       }
     },
     methods: {
+      ...mapActions(['saveHistory', 'delHistory', 'clearHistory']),
+      // 保存搜索结果历史到vuex 和 localstorage 中
       savaHis() {
-
+        this.saveHistory(this.query)
       },
       onQueryChange(query) {
         this.query = query
@@ -87,31 +88,29 @@
         this.$refs.searchBoxRef.getQuery(k)
       },
       showConfirm() {
-        this.$refs.confirmRef.show();
+        this.$refs.confirmRef.show()
       },
-      deleteHis() {
-
+      deleteHis(item) {
+        this.delHistory(item)
       },
       // 获取热搜数据
       _getHotKey() {
         getHotKey().then((res) => {
           // console.log('res===', res)
           if (res.code === 0) {
-            this.hotkey = res.data.hotkey
+            // this.hotkey = res.data.hotkey
+            this.hotkey = res.data.hotkey.slice(0, 10)
           }
         })
       },
       blurInput() {
-
-      },
-      savaHis() {
-
+        this.$refs.searchBoxRef.blur()
       },
       confirm() {
-
+        this.clearHistory()
       },
       cancel() {
-
+        return;
       }
     },
     created() {

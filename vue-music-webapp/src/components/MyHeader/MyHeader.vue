@@ -1,4 +1,4 @@
-<template>
+<template lang='html'>
   <div class="my-header">
     <div class="icon"></div>
     <h1 class="text">Children Music</h1>

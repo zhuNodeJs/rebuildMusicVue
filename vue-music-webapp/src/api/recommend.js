@@ -70,11 +70,47 @@ export function getResult(query, page, perpage, zhida) {
     remoteplace: 'txt.mqq.all'
   })
 
-  return axios.get(url, data)
+  return axios.get(url, {
+    params: data
+  })
   .then((res) => {
+    // console.log('>>>***',JSON.stringify(res.data), typeof res.data)
     return Promise.resolve(res.data)
   })
   .catch(err => {
     console.log(err)
   })
 }
+
+
+/**
+ * jsonp 抓取推荐页歌单数据
+ * 接口：https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg
+ * 提供方：https://y.qq.com/n/yqq/playlist/1471714611.html#
+ */
+
+export const getSongList = (disstid) => {
+  let url = '/api/getSonglist'
+  let data = Object.assign({}, commonParams, {
+    disstid,
+    type: 1,
+    json: 1,
+    utf8: 1,
+    onlysong: 0,
+    platform: 'yqq',
+    hostUin: 0,
+    needNewCode: 0
+  })
+
+  return axios.get(url, {
+    params: data
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  }).catch(err => {
+    console.log('song list err', err)
+  })
+};
+
+
+
+

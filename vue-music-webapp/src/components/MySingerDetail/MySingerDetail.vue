@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    SingleDetail
   </div>
 </template>
 
