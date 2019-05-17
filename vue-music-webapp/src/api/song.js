@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {commonParams} from '@/api/common-query'
+import { commonParams } from '@/api/common-query'
 
 /**
  * axios 抓取歌词数据
@@ -25,12 +25,13 @@ export function getLyric(mid) {
   return axios.get(url, {
     params: data
   })
-  .then(res => {
-    return Promise.resolve(res.data)
-  })
-  .catch(err => {
-    console.log(err)
-  })
+    .then(res => {
+      console.log('结果为：', res.data)
+      return Promise.resolve(res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
 
 }
 

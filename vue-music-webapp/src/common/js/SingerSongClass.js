@@ -1,5 +1,5 @@
 
-import {getLyric} from '@/api/song'
+import { getLyric } from '@/api/song'
 import { Base64 } from 'js-base64'
 
 export const filterSinger = (singer) => {
@@ -17,7 +17,7 @@ export const filterSinger = (singer) => {
 
 
 export class SingerSong {
-  constructor({id, mid, singer, name, album, duration, img, url}) {
+  constructor({ id, mid, singer, name, album, duration, img, url }) {
     this.id = id;
     this.mid = mid;
     this.singer = singer;
@@ -36,6 +36,7 @@ export class SingerSong {
 
     return new Promise((resolve, reject) => {
       getLyric(this.mid).then(res => {
+        console.log('hhahaha>>>>', res)
         if (res.retcode === 0) {
           this.lyric = Base64.decode(res.lyric)
           resolve(this.lyric)
@@ -43,7 +44,6 @@ export class SingerSong {
           reject('no lyric')
         }
       })
-
     })
   }
 }

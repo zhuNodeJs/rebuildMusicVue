@@ -16,7 +16,7 @@ const state = {
   // 播放器的播放的状态
   playing: false,
   // 播放器的展开状态
-  fullScreen: false,
+  fullScreen: false, // 测试环境
   // 播放歌曲列表
   playlist: [],
   // 顺序播放列表

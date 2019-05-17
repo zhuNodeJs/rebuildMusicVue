@@ -1,7 +1,7 @@
 <template lang='html'>
   <div class="my-song-list">
     <ul>
-      <li v-for="(item,index) in songs" :key="index" class="item" @click='selectItem(item, key)'>
+      <li v-for="(item,index) in songs" :key="index" class="item" @click='selectItem(item, index)'>
 
         <!-- 排行奖杯图片 -->
         <div class="rank" v-show="rank">

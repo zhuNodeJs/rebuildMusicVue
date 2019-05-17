@@ -31,17 +31,17 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 
   // these devServer options should be customized in /config/index.js
   devServer: {
-    before(app){
+    before(app) {
       app.get('/api/getList', function (req, res) {
         var url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
         // console.log('xxxx>>>>', req.query)
         axios.get(url, {
-            headers: {
-              referer: 'https://c.y.qq.com/',
-              host: 'c.y.qq.com'
-            },
-            params: req.query
-          })
+          headers: {
+            referer: 'https://c.y.qq.com/',
+            host: 'c.y.qq.com'
+          },
+          params: req.query
+        })
           .then(function (response) {
             // console.log('>>>', response)
             res.json(response.data)
@@ -50,84 +50,88 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             // console.log('error&&&', error)
           })
       }),
-      app.get('/api/getResult', function(req, res) {
-        var url = `https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp`
-        axios.get(url, {
-          headers: {
-            referer: 'https://c.y.qq.com/',
-            host: 'c.y.qq.com'
-          },
-          params: req.query
-        })
-        .then(function (response) {
-          // console.log('>>>', response.data, typeof response.data)
-          let result = response.data;
-          if (typeof result === 'string') {
-            let num = result.indexOf('(')
-            // JSON.parse将JSON字符串转换为对象
-            result = JSON.parse(result.slice(num + 1, -1))
-            // var reg = /^\w+\(({[^()]+})\)$/
-            // var matches = result.match(reg)
-            // if (matches) {
-            //   result = JSON.parse(matches[1])
-            // }
-          }
-          // console.log('>>>&&&&', result, typeof result)
-          res.json(result)
-        })
-        .catch(function (error) {
-          console.log('error&&&', error)
-        })
+        app.get('/api/getResult', function (req, res) {
+          var url = `https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp`
+          axios.get(url, {
+            headers: {
+              referer: 'https://c.y.qq.com/',
+              host: 'c.y.qq.com'
+            },
+            params: req.query
+          })
+            .then(function (response) {
+              // console.log('>>>', response.data, typeof response.data)
+              let result = response.data;
+              if (typeof result === 'string') {
+                let num = result.indexOf('(')
+                // JSON.parse将JSON字符串转换为对象
+                result = JSON.parse(result.slice(num + 1, -1))
+                // var reg = /^\w+\(({[^()]+})\)$/
+                // var matches = result.match(reg)
+                // if (matches) {
+                //   result = JSON.parse(matches[1])
+                // }
+              }
+              // console.log('>>>&&&&', result, typeof result)
+              res.json(result)
+            })
+            .catch(function (error) {
+              console.log('error&&&', error)
+            })
 
-      }),
-      app.get('/api/getLyric', function(req, res) {
-        let url = `https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg`
-        axios.get(url,{
-          headers: {
-            referer: 'https://c.y.qq.com/',
-            host: 'c.y.qq.com'
-          },
-          params: req.query
-        })
-        .then(response => {
-          let result = response.data
+        }),
+        app.get('/api/getLyric', function (req, res) {
+          let url = `https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg`
+          axios.get(url, {
+            headers: {
+              referer: 'https://c.y.qq.com/',
+              host: 'c.y.qq.com'
+            },
+            params: req.query
+          })
+            .then(response => {
+              let result = response.data
 
-          if (typeof result === 'string') {
-            let reg = /^\w+\(({[^()]+})\)$/
-            let matches = result.match(reg)
+              if (typeof result === 'string') {
+                // let reg = /^\w+\(({[^()]+})\)$/
+                // let matches = result.match(reg)
 
-            if (matches) {
-              result = JSON.parse(matches[1])
+                // if (matches) {
+                //   result = JSON.parse(matches[1])
+                // }
+
+                let num = result.indexOf('(')
+                // JSON.parse将JSON字符串转换为对象
+                result = JSON.parse(result.slice(num + 1, -1))
+              }
+
+              res.json(result)
+            })
+            .catch(err => {
+              console.log('错误>>', err)
+            })
+        }),
+        app.get('/api/getSonglist', function (req, res) {
+          let url = `https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg`
+          axios.get(url, {
+            headers: {
+              referer: 'https://c.y.qq.com/',
+              host: 'c.y.qq.com'
+            },
+            params: req.query
+          }).then(response => {
+            let result = response.data;
+            // console.log('>>>>>>', result)
+            if (typeof result === 'string') {
+              let num = result.indexOf('(')
+              // JSON.parse将JSON字符串转换为对象
+              result = JSON.parse(result.slice(num + 1, -1))
             }
-          }
-
-          res.json(result)
+            res.json(result)
+          }).catch(err => {
+            console.log('songlist err', err)
+          })
         })
-        .catch(err => {
-          console.log('错误>>', err)
-        })
-      }),
-      app.get('/api/getSonglist', function(req, res) {
-        let url = `https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg`
-        axios.get(url, {
-          headers: {
-            referer: 'https://c.y.qq.com/',
-            host: 'c.y.qq.com'
-          },
-          params: req.query
-        }).then(response => {
-          let result = response.data;
-          // console.log('>>>>>>', result)
-          if (typeof result === 'string') {
-            let num = result.indexOf('(')
-            // JSON.parse将JSON字符串转换为对象
-            result = JSON.parse(result.slice(num + 1, -1))
-          }
-          res.json(result)
-        }).catch(err => {
-          console.log('songlist err', err)
-        })
-      })
     },
     clientLogLevel: 'warning',
     historyApiFallback: {
@@ -192,8 +196,8 @@ module.exports = new Promise((resolve, reject) => {
           messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
         },
         onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
+          ? utils.createNotifierCallback()
+          : undefined
       }))
 
       resolve(devWebpackConfig)
